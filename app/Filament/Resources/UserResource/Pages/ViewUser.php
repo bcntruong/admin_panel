@@ -22,9 +22,9 @@ class ViewUser extends ViewRecord
     {
         return [
             Actions\EditAction::make()
-                ->label('Edit User'),
+                ->label(__('user.actions.edit_user')),
             Actions\DeleteAction::make()
-                ->label('Delete User')
+                ->label(__('user.actions.delete_user'))
                 ->requiresConfirmation(),
         ];
     }

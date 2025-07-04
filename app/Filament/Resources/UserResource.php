@@ -26,7 +26,25 @@ class UserResource extends Resource
 
     protected static ?string $navigationIcon = 'heroicon-o-users';
     
-    protected static ?string $navigationGroup = 'User Management';
+    /**
+     * Get the navigation group label
+     *
+     * @return string|null The navigation group label
+     */
+    public static function getNavigationGroup(): ?string
+    {
+        return __('user.navigation_group');
+    }
+    
+    /**
+     * Get the navigation label
+     *
+     * @return string The navigation label
+     */
+    public static function getNavigationLabel(): string
+    {
+        return __('user.navigation_label');
+    }
     
     protected static ?int $navigationSort = 1;
 
@@ -40,17 +58,17 @@ class UserResource extends Resource
     {
         return $form
             ->schema([
-                Section::make('User Information')
-                    ->description('Basic user information')
+                Section::make(__('user.form.user_information'))
+                    ->description(__('user.form.user_information_description'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label('Full Name')
+                            ->label(__('user.form.name'))
                             ->required()
                             ->maxLength(255)
                             ->placeholder('Enter user full name'),
                             
                         Forms\Components\TextInput::make('email')
-                            ->label('Email Address')
+                            ->label(__('user.form.email'))
                             ->email()
                             ->required()
                             ->unique(ignoreRecord: true)
@@ -58,30 +76,30 @@ class UserResource extends Resource
                             ->placeholder('user@example.com'),
                             
                         Forms\Components\DateTimePicker::make('email_verified_at')
-                            ->label('Email Verified At')
-                            ->placeholder('Not verified')
+                            ->label(__('user.form.email_verified_at'))
+                            ->placeholder(__('user.form.not_verified'))
                             ->nullable(),
                     ])->columns(2),
                     
-                Section::make('Authentication')
-                    ->description('User authentication details')
+                Section::make(__('user.form.authentication'))
+                    ->description(__('user.form.authentication_description'))
                     ->schema([
                         Forms\Components\TextInput::make('password')
-                            ->label('Password')
+                            ->label(__('user.form.password'))
                             ->password()
                             ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                             ->dehydrated(fn (?string $state): bool => filled($state))
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->rule(Password::default())
                             ->autocomplete('new-password')
-                            ->placeholder(fn (string $operation): string => $operation === 'edit' ? '••••••••' : 'Enter password'),
+                            ->placeholder(fn (string $operation): string => $operation === 'edit' ? '••••••••' : __('user.form.enter_password')),
                             
                         Forms\Components\TextInput::make('password_confirmation')
-                            ->label('Confirm Password')
+                            ->label(__('user.form.password_confirmation'))
                             ->password()
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->dehydrated(false)
-                            ->placeholder('Confirm password')
+                            ->placeholder(__('user.form.confirm_password'))
                             ->same('password'),
                     ])->columns(2),
             ]);
@@ -98,45 +116,45 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label('ID')
+                    ->label(__('user.table.id'))
                     ->sortable()
                     ->toggleable(),
                     
                 Tables\Columns\TextColumn::make('name')
-                    ->label('Name')
+                    ->label(__('user.table.name'))
                     ->searchable()
                     ->sortable(),
                     
                 Tables\Columns\TextColumn::make('email')
-                    ->label('Email')
+                    ->label(__('user.table.email'))
                     ->searchable()
                     ->sortable(),
                     
                 Tables\Columns\IconColumn::make('email_verified_at')
-                    ->label('Verified')
+                    ->label(__('user.table.verified'))
                     ->boolean()
                     ->trueIcon('heroicon-o-check-circle')
                     ->falseIcon('heroicon-o-x-circle')
                     ->sortable(),
                     
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label('Created Date')
+                    ->label(__('user.table.created_date'))
                     ->dateTime('d M Y, H:i')
                     ->sortable()
                     ->toggleable(),
                     
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label('Last Updated')
+                    ->label(__('user.table.last_updated'))
                     ->dateTime('d M Y, H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),
             ])
             ->filters([
                 TernaryFilter::make('email_verified_at')
-                    ->label('Email Verification')
-                    ->placeholder('All Users')
-                    ->trueLabel('Verified Users')
-                    ->falseLabel('Unverified Users')
+                    ->label(__('user.filters.email_verification'))
+                    ->placeholder(__('user.filters.all_users'))
+                    ->trueLabel(__('user.filters.verified_users'))
+                    ->falseLabel(__('user.filters.unverified_users'))
                     ->queries(
                         true: fn (Builder $query) => $query->whereNotNull('email_verified_at'),
                         false: fn (Builder $query) => $query->whereNull('email_verified_at'),

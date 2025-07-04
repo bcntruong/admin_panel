@@ -31,6 +31,6 @@ class CreateUser extends CreateRecord
      */
     protected function getCreatedNotificationTitle(): string
     {
-        return 'User created successfully';
+        return __('user.notifications.created');
     }
 }
