@@ -15,6 +15,16 @@ class CreateUser extends CreateRecord
     protected static string $resource = UserResource::class;
     
     /**
+     * Get the breadcrumb for the page
+     *
+     * @return string The breadcrumb label
+     */
+    public function getBreadcrumb(): string
+    {
+        return __('common.breadcrumbs.create');
+    }
+    
+    /**
      * Get the redirect URL after successful creation
      *
      * @return string The URL to redirect to

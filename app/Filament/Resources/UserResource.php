@@ -27,6 +27,26 @@ class UserResource extends Resource
     protected static ?string $navigationIcon = 'heroicon-o-users';
     
     /**
+     * Get the model label
+     *
+     * @return string The model label
+     */
+    public static function getModelLabel(): string
+    {
+        return __('user.resource.label');
+    }
+    
+    /**
+     * Get the plural model label
+     *
+     * @return string The plural model label
+     */
+    public static function getPluralModelLabel(): string
+    {
+        return __('user.resource.plural_label');
+    }
+    
+    /**
      * Get the navigation group label
      *
      * @return string|null The navigation group label
@@ -62,13 +82,13 @@ class UserResource extends Resource
                     ->description(__('user.form.user_information_description'))
                     ->schema([
                         Forms\Components\TextInput::make('name')
-                            ->label(__('user.form.name'))
+                            ->label(__('common.form.name'))
                             ->required()
                             ->maxLength(255)
                             ->placeholder('Enter user full name'),
                             
                         Forms\Components\TextInput::make('email')
-                            ->label(__('user.form.email'))
+                            ->label(__('common.form.email'))
                             ->email()
                             ->required()
                             ->unique(ignoreRecord: true)
@@ -85,21 +105,21 @@ class UserResource extends Resource
                     ->description(__('user.form.authentication_description'))
                     ->schema([
                         Forms\Components\TextInput::make('password')
-                            ->label(__('user.form.password'))
+                            ->label(__('common.form.password'))
                             ->password()
                             ->dehydrateStateUsing(fn (string $state): string => Hash::make($state))
                             ->dehydrated(fn (?string $state): bool => filled($state))
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->rule(Password::default())
                             ->autocomplete('new-password')
-                            ->placeholder(fn (string $operation): string => $operation === 'edit' ? '••••••••' : __('user.form.enter_password')),
+                            ->placeholder(fn (string $operation): string => $operation === 'edit' ? '••••••••' : __('common.form.password')),
                             
                         Forms\Components\TextInput::make('password_confirmation')
-                            ->label(__('user.form.password_confirmation'))
+                            ->label(__('common.form.confirm_password'))
                             ->password()
                             ->required(fn (string $operation): bool => $operation === 'create')
                             ->dehydrated(false)
-                            ->placeholder(__('user.form.confirm_password'))
+                            ->placeholder(__('common.form.confirm_password'))
                             ->same('password'),
                     ])->columns(2),
             ]);
@@ -116,17 +136,17 @@ class UserResource extends Resource
         return $table
             ->columns([
                 Tables\Columns\TextColumn::make('id')
-                    ->label(__('user.table.id'))
+                    ->label(__('common.table.id'))
                     ->sortable()
                     ->toggleable(),
                     
                 Tables\Columns\TextColumn::make('name')
-                    ->label(__('user.table.name'))
+                    ->label(__('common.table.name'))
                     ->searchable()
                     ->sortable(),
                     
                 Tables\Columns\TextColumn::make('email')
-                    ->label(__('user.table.email'))
+                    ->label(__('common.table.email'))
                     ->searchable()
                     ->sortable(),
                     
@@ -138,13 +158,13 @@ class UserResource extends Resource
                     ->sortable(),
                     
                 Tables\Columns\TextColumn::make('created_at')
-                    ->label(__('user.table.created_date'))
+                    ->label(__('common.table.created_at'))
                     ->dateTime('d M Y, H:i')
                     ->sortable()
                     ->toggleable(),
                     
                 Tables\Columns\TextColumn::make('updated_at')
-                    ->label(__('user.table.last_updated'))
+                    ->label(__('common.table.updated_at'))
                     ->dateTime('d M Y, H:i')
                     ->sortable()
                     ->toggleable(isToggledHiddenByDefault: true),

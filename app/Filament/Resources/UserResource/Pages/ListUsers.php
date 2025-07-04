@@ -17,6 +17,16 @@ class ListUsers extends ListRecords
     protected static string $resource = UserResource::class;
     
     /**
+     * Get the breadcrumb for the page
+     *
+     * @return string The breadcrumb label
+     */
+    public function getBreadcrumb(): string
+    {
+        return __('common.breadcrumbs.list');
+    }
+    
+    /**
      * Define the header actions for the list page
      *
      * @return array Actions configuration
@@ -25,7 +35,7 @@ class ListUsers extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label(__('user.actions.add_new_user'))
+                ->label(__('common.actions.add'))
                 ->icon('heroicon-o-user-plus'),
         ];
     }
@@ -39,7 +49,7 @@ class ListUsers extends ListRecords
     {
         return [
             Actions\Action::make('export')
-                ->label(__('user.actions.export_users'))
+                ->label(__('common.actions.export'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->size(ActionSize::Small)
                 ->action(function () {

@@ -29,8 +29,8 @@ enum Language: string
     public static function getLanguageName(string $code): ?string
     {
         return match ($code) {
-            self::ENGLISH->value => 'English',
-            self::VIETNAMESE->value => 'Tiếng Việt',
+            self::ENGLISH->value => 'Tiếng Anh',
+            self::VIETNAMESE->value => 'Vietnamese',
             default => null,
         };
     }

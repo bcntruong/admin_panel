@@ -12,6 +12,16 @@ use Filament\Resources\Pages\ViewRecord;
 class ViewUser extends ViewRecord
 {
     protected static string $resource = UserResource::class;
+    
+    /**
+     * Get the breadcrumb for the page
+     *
+     * @return string The breadcrumb label
+     */
+    public function getBreadcrumb(): string
+    {
+        return __('common.breadcrumbs.view');
+    }
 
     /**
      * Define the header actions for the view page
@@ -22,9 +32,9 @@ class ViewUser extends ViewRecord
     {
         return [
             Actions\EditAction::make()
-                ->label(__('user.actions.edit_user')),
+                ->label(__('common.actions.edit')),
             Actions\DeleteAction::make()
-                ->label(__('user.actions.delete_user'))
+                ->label(__('common.actions.delete'))
                 ->requiresConfirmation(),
         ];
     }

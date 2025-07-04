@@ -42,7 +42,7 @@ class AdminPanelProvider extends PanelProvider
             ->path('admin')
             ->login()
             // Set panel title based on current locale
-            ->brandName(fn () => App::getLocale() === Language::VIETNAMESE->value ? __('user.panel.title_vi') : __('user.panel.title_en'))
+            ->brandName(fn () => __('common.panel.title'))
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -75,14 +75,14 @@ class AdminPanelProvider extends PanelProvider
             ->userMenuItems([
                 // Thêm liên kết chuyển đổi sang tiếng Anh
                 UserMenuItem::make()
-                    ->label('English')
+                    ->label(Language::getLanguageName(Language::ENGLISH->value))
                     ->icon('heroicon-o-flag')
                     ->url('/language/' . Language::ENGLISH->value)
                     ->visible(fn() => App::getLocale() !== Language::ENGLISH->value),
                     
                 // Thêm liên kết chuyển đổi sang tiếng Việt
                 UserMenuItem::make()
-                    ->label('Tiếng Việt')
+                    ->label(Language::getLanguageName(Language::VIETNAMESE->value))
                     ->icon('heroicon-o-flag')
                     ->url('/language/' . Language::VIETNAMESE->value)
                     ->visible(fn() => App::getLocale() !== Language::VIETNAMESE->value),

@@ -14,6 +14,16 @@ class EditUser extends EditRecord
     protected static string $resource = UserResource::class;
     
     /**
+     * Get the breadcrumb for the page
+     *
+     * @return string The breadcrumb label
+     */
+    public function getBreadcrumb(): string
+    {
+        return __('common.breadcrumbs.edit');
+    }
+    
+    /**
      * Define the header actions for the edit page
      *
      * @return array Actions configuration
@@ -22,9 +32,9 @@ class EditUser extends EditRecord
     {
         return [
             Actions\ViewAction::make()
-                ->label(__('user.actions.view_details')),
+                ->label(__('common.actions.view')),
             Actions\DeleteAction::make()
-                ->label(__('user.actions.delete_user'))
+                ->label(__('common.actions.delete'))
                 ->requiresConfirmation(),
             Actions\Action::make('resetPassword')
                 ->label(__('user.actions.reset_password'))

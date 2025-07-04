@@ -1,60 +1,49 @@
 <?php
 
 return [
-    // Panel
-    'panel' => [
-        'title_en' => 'Admin Panel',
-        'title_vi' => 'Quản Trị Hệ Thống',
-        'language_selector' => 'Ngôn Ngữ',
-        'select_language' => 'Chọn ngôn ngữ',
+    
+    // Resource titles
+    'resource' => [
+        'label' => 'Người dùng',
+        'plural_label' => 'Người dùng',
+    ],
+    
+    // Breadcrumbs - chỉ giữ lại các khóa đặc thù cho module user
+    'breadcrumbs' => [
+        'user' => 'Người dùng',
+        'users' => 'Người dùng',
     ],
     
     // Navigation
-    'navigation_group' => 'Quản Lý Người Dùng',
-    'navigation_label' => 'Người Dùng',
+    'navigation_group' => 'Quản lý người dùng',
+    'navigation_label' => 'Người dùng',
     
-    // Form labels
+    // Form labels - chỉ giữ lại các khóa đặc thù cho module user
     'form' => [
-        'user_information' => 'Thông Tin Người Dùng',
+        'user_information' => 'Thông tin người dùng',
         'user_information_description' => 'Thông tin cơ bản của người dùng',
-        'name' => 'Họ Tên',
-        'email' => 'Địa Chỉ Email',
-        'email_verified_at' => 'Xác Thực Email Lúc',
+        'email_verified_at' => 'Xác thực email lúc',
         'not_verified' => 'Chưa xác thực',
-        'authentication' => 'Xác Thực',
+        'authentication' => 'Xác thực',
         'authentication_description' => 'Thông tin xác thực người dùng',
-        'password' => 'Mật Khẩu',
-        'password_confirmation' => 'Xác Nhận Mật Khẩu',
-        'enter_password' => 'Nhập mật khẩu',
-        'confirm_password' => 'Xác nhận mật khẩu',
     ],
     
-    // Table columns
+    // Table columns - chỉ giữ lại các khóa đặc thù cho module user
     'table' => [
-        'id' => 'ID',
-        'name' => 'Họ Tên',
-        'email' => 'Email',
-        'verified' => 'Đã Xác Thực',
-        'created_date' => 'Ngày Tạo',
-        'last_updated' => 'Cập Nhật Lần Cuối',
+        'verified' => 'Đã xác thực',
     ],
     
     // Filters
     'filters' => [
-        'email_verification' => 'Xác Thực Email',
-        'all_users' => 'Tất Cả Người Dùng',
-        'verified_users' => 'Người Dùng Đã Xác Thực',
-        'unverified_users' => 'Người Dùng Chưa Xác Thực',
+        'email_verification' => 'Xác thực email',
+        'all_users' => 'Tất cả người dùng',
+        'verified_users' => 'Người dùng đã xác thực',
+        'unverified_users' => 'Người dùng chưa xác thực',
     ],
     
-    // Actions
+    // Actions - chỉ giữ lại các khóa đặc thù cho module user
     'actions' => [
-        'add_new_user' => 'Thêm Người Dùng Mới',
-        'export_users' => 'Xuất Danh Sách',
-        'view_details' => 'Xem Chi Tiết',
-        'edit_user' => 'Chỉnh Sửa',
-        'delete_user' => 'Xóa Người Dùng',
-        'reset_password' => 'Đặt Lại Mật Khẩu',
+        'reset_password' => 'Đặt lại mật khẩu',
         'reset_password_heading' => 'Đặt lại mật khẩu người dùng',
         'reset_password_description' => 'Bạn có chắc chắn muốn đặt lại mật khẩu của người dùng này? Một mật khẩu mới sẽ được tạo và người dùng sẽ được thông báo.',
         'reset_password_confirm' => 'Đồng ý, đặt lại mật khẩu',
