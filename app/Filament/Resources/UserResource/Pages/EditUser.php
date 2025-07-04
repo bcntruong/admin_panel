@@ -22,22 +22,22 @@ class EditUser extends EditRecord
     {
         return [
             Actions\ViewAction::make()
-                ->label('View Details'),
+                ->label(__('user.actions.view_details')),
             Actions\DeleteAction::make()
-                ->label('Delete User')
+                ->label(__('user.actions.delete_user'))
                 ->requiresConfirmation(),
             Actions\Action::make('resetPassword')
-                ->label('Reset Password')
+                ->label(__('user.actions.reset_password'))
                 ->icon('heroicon-o-key')
                 ->color('warning')
                 ->requiresConfirmation()
-                ->modalHeading('Reset user password')
-                ->modalDescription('Are you sure you want to reset this user\'s password? A new password will be generated and the user will be notified.')
-                ->modalSubmitActionLabel('Yes, reset password')
+                ->modalHeading(__('user.actions.reset_password_heading'))
+                ->modalDescription(__('user.actions.reset_password_description'))
+                ->modalSubmitActionLabel(__('user.actions.reset_password_confirm'))
                 ->action(function () {
                     // Password reset functionality can be implemented here
                     // This is a placeholder for future implementation
-                    $this->notify('success', 'Password reset email sent to user');
+                    $this->notify('success', __('user.actions.password_reset_success'));
                 }),
         ];
     }
@@ -59,6 +59,6 @@ class EditUser extends EditRecord
      */
     protected function getSavedNotificationTitle(): string
     {
-        return 'User updated successfully';
+        return __('user.notifications.updated');
     }
 }

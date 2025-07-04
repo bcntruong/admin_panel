@@ -2,6 +2,8 @@
 
 namespace App\Providers\Filament;
 
+use App\Enums\Language;
+use App\Http\Middleware\SetLocale;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
 use Filament\Http\Middleware\DisableBladeIconComponents;
@@ -16,10 +18,22 @@ use Illuminate\Cookie\Middleware\EncryptCookies;
 use Illuminate\Foundation\Http\Middleware\VerifyCsrfToken;
 use Illuminate\Routing\Middleware\SubstituteBindings;
 use Illuminate\Session\Middleware\StartSession;
+use Illuminate\Support\Facades\App;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
+use Filament\Navigation\UserMenuItem;
 
+/**
+ * Admin panel provider for Filament
+ * Configures the admin panel with multilingual support
+ */
 class AdminPanelProvider extends PanelProvider
 {
+    /**
+     * Configure the admin panel
+     *
+     * @param Panel $panel The panel instance
+     * @return Panel The configured panel
+     */
     public function panel(Panel $panel): Panel
     {
         return $panel
@@ -27,6 +41,8 @@ class AdminPanelProvider extends PanelProvider
             ->id('admin')
             ->path('admin')
             ->login()
+            // Set panel title based on current locale
+            ->brandName(fn () => App::getLocale() === Language::VIETNAMESE->value ? __('user.panel.title_vi') : __('user.panel.title_en'))
             ->colors([
                 'primary' => Color::Amber,
             ])
@@ -50,9 +66,26 @@ class AdminPanelProvider extends PanelProvider
                 SubstituteBindings::class,
                 DisableBladeIconComponents::class,
                 DispatchServingFilamentEvent::class,
+                // Add our custom SetLocale middleware to handle language switching
+                SetLocale::class,
             ])
             ->authMiddleware([
                 Authenticate::class,
+            ])
+            ->userMenuItems([
+                // Thêm liên kết chuyển đổi sang tiếng Anh
+                UserMenuItem::make()
+                    ->label('English')
+                    ->icon('heroicon-o-flag')
+                    ->url('/language/' . Language::ENGLISH->value)
+                    ->visible(fn() => App::getLocale() !== Language::ENGLISH->value),
+                    
+                // Thêm liên kết chuyển đổi sang tiếng Việt
+                UserMenuItem::make()
+                    ->label('Tiếng Việt')
+                    ->icon('heroicon-o-flag')
+                    ->url('/language/' . Language::VIETNAMESE->value)
+                    ->visible(fn() => App::getLocale() !== Language::VIETNAMESE->value),
             ]);
     }
 }

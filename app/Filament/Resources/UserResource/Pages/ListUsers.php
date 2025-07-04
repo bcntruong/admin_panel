@@ -25,7 +25,7 @@ class ListUsers extends ListRecords
     {
         return [
             Actions\CreateAction::make()
-                ->label('Add New User')
+                ->label(__('user.actions.add_new_user'))
                 ->icon('heroicon-o-user-plus'),
         ];
     }
@@ -39,7 +39,7 @@ class ListUsers extends ListRecords
     {
         return [
             Actions\Action::make('export')
-                ->label('Export Users')
+                ->label(__('user.actions.export_users'))
                 ->icon('heroicon-o-arrow-down-tray')
                 ->size(ActionSize::Small)
                 ->action(function () {
