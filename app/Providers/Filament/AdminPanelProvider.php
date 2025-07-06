@@ -3,6 +3,7 @@
 namespace App\Providers\Filament;
 
 use App\Enums\Language;
+use BezhanSalleh\FilamentShield\FilamentShieldPlugin;
 use App\Http\Middleware\SetLocale;
 use Filament\Http\Middleware\Authenticate;
 use Filament\Http\Middleware\AuthenticateSession;
@@ -68,6 +69,9 @@ class AdminPanelProvider extends PanelProvider
                 DispatchServingFilamentEvent::class,
                 // Add our custom SetLocale middleware to handle language switching
                 SetLocale::class,
+            ])
+            ->plugins([
+                FilamentShieldPlugin::make(),
             ])
             ->authMiddleware([
                 Authenticate::class,

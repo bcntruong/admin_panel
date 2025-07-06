@@ -10,12 +10,14 @@ use Filament\Forms\Components\Section;
 use Filament\Forms\Form;
 use Filament\Resources\Resource;
 use Filament\Tables;
+use Filament\Tables\Actions\BulkAction;
 use Filament\Tables\Filters\SelectFilter;
 use Filament\Tables\Filters\TernaryFilter;
 use Filament\Tables\Table;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rules\Password;
+use Spatie\Permission\Models\Role;
 
 /**
  * User Resource for managing users in the admin panel
@@ -157,6 +159,13 @@ class UserResource extends Resource
                     ->falseIcon('heroicon-o-x-circle')
                     ->sortable(),
                     
+                Tables\Columns\TextColumn::make('roles.name')
+                    ->label('Vai trò')
+                    ->badge()
+                    ->color('success')
+                    ->separator(',')
+                    ->toggleable(),
+                    
                 Tables\Columns\TextColumn::make('created_at')
                     ->label(__('common.table.created_at'))
                     ->dateTime('d M Y, H:i')
@@ -190,6 +199,30 @@ class UserResource extends Resource
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
                         ->requiresConfirmation(),
+                    BulkAction::make('assignRoles')
+                        ->label('Phân quyền')
+                        ->icon('heroicon-o-key')
+                        ->color('warning')
+                        ->form([
+                            Forms\Components\Select::make('roles')
+                                ->label('Chọn vai trò')
+                                ->multiple()
+                                ->options(Role::all()->pluck('name', 'id'))
+                                ->required()
+                                ->placeholder('Chọn một hoặc nhiều vai trò'),
+                        ])
+                        ->action(function ($records, array $data) {
+                            foreach ($records as $user) {
+                                $user->roles()->sync($data['roles']);
+                            }
+                        })
+                        ->deselectRecordsAfterCompletion()
+                        ->successNotification(
+                            \Filament\Notifications\Notification::make()
+                                ->success()
+                                ->title('Phân quyền thành công')
+                                ->body('Đã cập nhật vai trò cho các user đã chọn.')
+                        ),
                 ]),
             ])
             ->defaultSort('created_at', 'desc');
