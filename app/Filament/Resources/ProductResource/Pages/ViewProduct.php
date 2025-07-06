@@ -4,29 +4,24 @@ namespace App\Filament\Resources\ProductResource\Pages;
 
 use App\Filament\Resources\ProductResource;
 use Filament\Actions;
-use Filament\Resources\Pages\EditRecord;
+use Filament\Resources\Pages\ViewRecord;
 
-class EditProduct extends EditRecord
+class ViewProduct extends ViewRecord
 {
     protected static string $resource = ProductResource::class;
 
     public function getBreadcrumb(): string
     {
-        return __('product.breadcrumbs.edit');
+        return __('product.breadcrumbs.view');
     }
 
     protected function getHeaderActions(): array
     {
         return [
+            Actions\EditAction::make()
+                ->label(__('common.actions.edit')),
             Actions\DeleteAction::make()
                 ->label(__('common.actions.delete')),
-            Actions\ViewAction::make()
-                ->label(__('common.actions.view')),
         ];
     }
-
-    protected function getRedirectUrl(): string
-    {
-        return $this->getResource()::getUrl('index');
-    }
-}
+} 

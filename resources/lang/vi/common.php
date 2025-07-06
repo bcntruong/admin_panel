@@ -1,13 +1,13 @@
 <?php
 
 return [
-    // Common words and phrases used across multiple features
+    // Common actions
     'actions' => [
-        'add' => 'Thêm mới',
-        'edit' => 'Chỉnh sửa',
+        'view' => 'Xem',
+        'edit' => 'Sửa',
         'delete' => 'Xóa',
-        'view' => 'Xem chi tiết',
-        'export' => 'Xuất',
+        'create' => 'Thêm mới',
+        'delete_selected' => 'Xóa đã chọn',
         'save' => 'Lưu',
         'cancel' => 'Hủy',
         'confirm' => 'Xác nhận',
@@ -17,6 +17,15 @@ return [
         'reset' => 'Đặt lại',
         'yes' => 'Có',
         'no' => 'Không',
+        'add' => 'Thêm mới',
+    ],
+    
+    // Common breadcrumbs
+    'breadcrumbs' => [
+        'list' => 'Danh sách',
+        'create' => 'Thêm mới',
+        'edit' => 'Chỉnh sửa',
+        'view' => 'Xem chi tiết',
     ],
     
     // Common form labels

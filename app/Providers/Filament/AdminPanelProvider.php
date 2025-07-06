@@ -22,6 +22,7 @@ use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\App;
 use Illuminate\View\Middleware\ShareErrorsFromSession;
 use Filament\Navigation\UserMenuItem;
+use App\Filament\Resources\RoleResource;
 
 /**
  * Admin panel provider for Filament
