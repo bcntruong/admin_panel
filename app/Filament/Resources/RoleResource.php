@@ -40,57 +40,28 @@ class RoleResource extends Resource
                     ])
                     ->columns(2),
                     
-                Forms\Components\Section::make('Phân quyền')
-                    ->description('Chọn các quyền hạn cho vai trò này')
+                Forms\Components\Section::make(__('permissions.section_title'))
+                    ->description(__('permissions.section_description'))
                     ->schema(function () {
                         $permissions = \Spatie\Permission\Models\Permission::all();
                         $permissionsByResource = [];
-                        
-                        // Debug: Kiểm tra các permission trùng lặp
-                        $debugInfo = [];
-                        foreach ($permissions as $permission) {
-                            $debugInfo[$permission->name] = isset($debugInfo[$permission->name]) ? $debugInfo[$permission->name] + 1 : 1;
-                        }
-                        $duplicates = array_filter($debugInfo, function($count) { return $count > 1; });
-                        
-                        $actionLabels = [
-                            'view' => 'Xem',
-                            'view_any' => 'Xem danh sách',
-                            'create' => 'Tạo mới',
-                            'update' => 'Chỉnh sửa',
-                            'delete' => 'Xóa',
-                            'delete_any' => 'Xóa nhiều',
-                            'restore' => 'Khôi phục',
-                            'restore_any' => 'Khôi phục nhiều',
-                            'force_delete' => 'Xóa vĩnh viễn',
-                            'force_delete_any' => 'Xóa vĩnh viễn nhiều',
-                            'replicate' => 'Sao chép',
-                            'reorder' => 'Sắp xếp',
-                        ];
-                        
-                        $resourceLabels = [
-                            'user' => 'Người dùng',
-                            'role' => 'Vai trò',
-                        ];
-                        
-                        // Đảm bảo mỗi permission chỉ xuất hiện một lần
-                        $processedPermissions = [];
                         
                         // Nhóm permissions theo resource chính (user, role)
                         foreach ($permissions as $permission) {
                             $name = $permission->name;
                             
                             // Bỏ qua nếu đã xử lý
-                            if (in_array($name, $processedPermissions)) {
+                            if (in_array($name, $processedPermissions ?? [], true)) {
                                 continue;
                             }
                             $processedPermissions[] = $name;
                             
                             // Xác định resource chính
                             $mainResource = null;
-                            foreach ($resourceLabels as $key => $label) {
-                                // Kiểm tra cả dạng số ít và số nhiều
-                                if (strpos($name, "_{$key}") !== false || strpos($name, "_{$key}s") !== false) {
+                            foreach (array_keys(__('permissions.groups')) as $key) {
+                                // Kiểm tra chính xác phần cuối của tên quyền
+                                if (preg_match("/_" . preg_quote($key, '/') . "$/", $name) || 
+                                    preg_match("/_" . preg_quote($key, '/') . "s$/", $name)) {
                                     $mainResource = $key;
                                     break;
                                 }
@@ -99,23 +70,23 @@ class RoleResource extends Resource
                             if ($mainResource) {
                                 if (!isset($permissionsByResource[$mainResource])) {
                                     $permissionsByResource[$mainResource] = [
-                                        'label' => $resourceLabels[$mainResource],
+                                        'label' => __('permissions.groups.' . $mainResource),
                                         'permissions' => [],
                                     ];
                                 }
                                 
                                 // Xác định action từ tên permission
                                 $action = null;
-                                foreach ($actionLabels as $actionKey => $actionLabel) {
-                                    if (strpos($name, $actionKey) === 0) {
+                                foreach (array_keys(__('permissions.actions')) as $actionKey) {
+                                    if (strpos($name, $actionKey . '_') === 0) {
                                         $action = $actionKey;
                                         break;
                                     }
                                 }
                                 
-                                // Thêm tên đầy đủ của permission để dễ phân biệt
-                                $label = $action ? $actionLabels[$action] : $name;
-                                $label .= " ({$name})";
+                                // Sử dụng tên từ file ngôn ngữ và thêm tên đầy đủ để phân biệt
+                                $label = $action ? __('permissions.actions.' . $action) : $name;
+                                $label .= ' (' . $name . ')';
                                 
                                 $permissionsByResource[$mainResource]['permissions'][$permission->name] = $label;
                             }
@@ -124,14 +95,35 @@ class RoleResource extends Resource
                         // Tạo các components cho từng resource
                         $components = [];
                         foreach ($permissionsByResource as $resource => $data) {
+                            // Tạo ID duy nhất cho mỗi nhóm
+                            $groupId = "permissions-group-{$resource}";
+                            
                             $components[] = Forms\Components\Group::make()
                                 ->schema([
                                     Forms\Components\Fieldset::make($data['label'])
-                                        ->schema(function () use ($data) {
+                                        ->extraAttributes(['x-data' => '{}'])
+                                        ->schema(function () use ($data, $groupId) {
                                             $checkboxes = [];
+                                            
+                                            // Thêm nút Select All / Deselect All
+                                            $checkboxes[] = Forms\Components\Grid::make()
+                                                ->schema([
+                                                    Forms\Components\View::make('components.select-all-buttons')
+                                                        ->data([
+                                                            'groupId' => $groupId,
+                                                            'selectAllLabel' => __('permissions.select_all'),
+                                                            'deselectAllLabel' => __('permissions.deselect_all'),
+                                                        ]),
+                                                ])
+                                                ->columnSpan('full');
+                                            
+                                            // Tạo các checkbox cho từng permission
                                             foreach ($data['permissions'] as $permissionName => $actionLabel) {
                                                 $checkboxes[] = Forms\Components\Checkbox::make($permissionName)
-                                                    ->label($actionLabel);
+                                                    ->label($actionLabel)
+                                                    ->extraAttributes([
+                                                        'data-group' => $groupId
+                                                    ]);
                                             }
                                             return $checkboxes;
                                         })
