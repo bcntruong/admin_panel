@@ -230,16 +230,20 @@ class ProductResource extends Resource
             ])
             ->actions([
                 Tables\Actions\ViewAction::make()
-                    ->label(__('common.actions.view')),
+                    ->configure(fn (Tables\Actions\ViewAction $action) => 
+                        \App\Filament\Components\Buttons\Table\ViewButton::make()->configure($action)),
                 Tables\Actions\EditAction::make()
-                    ->label(__('common.actions.edit')),
+                    ->configure(fn (Tables\Actions\EditAction $action) => 
+                        \App\Filament\Components\Buttons\Table\EditButton::make()->configure($action)),
                 Tables\Actions\DeleteAction::make()
-                    ->label(__('common.actions.delete')),
+                    ->configure(fn (Tables\Actions\DeleteAction $action) => 
+                        \App\Filament\Components\Buttons\Table\DeleteButton::make()->configure($action)),
             ])
             ->bulkActions([
                 Tables\Actions\BulkActionGroup::make([
                     Tables\Actions\DeleteBulkAction::make()
-                        ->label(__('common.actions.delete')),
+                        ->configure(fn (Tables\Actions\DeleteBulkAction $action) => 
+                            \App\Filament\Components\Buttons\Table\DeleteBulkButton::make()->configure($action)),
                     Tables\Actions\BulkAction::make('toggleFeatured')
                         ->label(__('product.actions.toggle_featured'))
                         ->icon('heroicon-o-star')

@@ -9,6 +9,8 @@ return [
         'create' => 'Thêm mới',
         'delete_selected' => 'Xóa đã chọn',
         'save' => 'Lưu',
+        'save_and_continue' => 'Lưu & Tiếp tục',
+        'create_and_create_more' => 'Tạo & Tạo thêm',
         'cancel' => 'Hủy',
         'confirm' => 'Xác nhận',
         'back' => 'Quay lại',
@@ -18,6 +20,9 @@ return [
         'yes' => 'Có',
         'no' => 'Không',
         'add' => 'Thêm mới',
+        'add_tooltip' => 'Thêm mới (Ctrl+A)',
+        'new_product' => 'Sản phẩm mới',
+        'add_user' => 'Thêm người dùng',
     ],
     
     // Common breadcrumbs

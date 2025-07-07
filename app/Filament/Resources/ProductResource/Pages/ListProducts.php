@@ -2,6 +2,8 @@
 
 namespace App\Filament\Resources\ProductResource\Pages;
 
+use App\Filament\Components\Buttons\AddNewButton;
+use App\Filament\Components\Buttons\CreateButton;
 use App\Filament\Resources\ProductResource;
 use Filament\Actions;
 use Filament\Resources\Pages\ListRecords;
@@ -18,8 +20,9 @@ class ListProducts extends ListRecords
     protected function getHeaderActions(): array
     {
         return [
-            Actions\CreateAction::make()
-                ->label(__('common.actions.add')),
+            CreateButton::make()->configure(
+                \Filament\Actions\CreateAction::make()
+            )
         ];
     }
 }
