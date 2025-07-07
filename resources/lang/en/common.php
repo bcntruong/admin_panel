@@ -4,11 +4,16 @@ return [
     // Common words and phrases used across multiple features
     'actions' => [
         'add' => 'Add new',
+        'add_tooltip' => 'Add a new item (Ctrl+A)',
+        'new_product' => 'New Product',
+        'add_user' => 'Add User',
         'edit' => 'Edit',
         'delete' => 'Delete',
         'view' => 'View details',
         'export' => 'Export',
         'save' => 'Save',
+        'save_and_continue' => 'Save & Continue',
+        'create_and_create_more' => 'Create & Create Another',
         'cancel' => 'Cancel',
         'confirm' => 'Confirm',
         'back' => 'Back',
